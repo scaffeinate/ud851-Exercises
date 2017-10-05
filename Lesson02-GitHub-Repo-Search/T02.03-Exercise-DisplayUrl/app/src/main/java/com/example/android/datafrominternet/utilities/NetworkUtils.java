@@ -30,8 +30,10 @@ import java.util.Scanner;
  */
 public class NetworkUtils {
 
+    final static String SCHEME = "https";
+
     final static String GITHUB_BASE_URL =
-            "https://api.github.com/search/repositories";
+            "api.github.com/search/repositories";
 
     final static String PARAM_QUERY = "q";
 
@@ -51,6 +53,7 @@ public class NetworkUtils {
     public static URL buildUrl(String githubSearchQuery) throws MalformedURLException {
         // COMPLETED (1) Fill in this method to build the proper Github query URL
         return new URL(new Uri.Builder()
+                .scheme(SCHEME)
                 .path(GITHUB_BASE_URL)
                 .appendQueryParameter(PARAM_QUERY, githubSearchQuery)
                 .appendQueryParameter(PARAM_SORT, sortBy).build().toString());
