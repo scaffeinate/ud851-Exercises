@@ -15,6 +15,8 @@
  */
 package com.example.android.implicitintents;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -35,10 +37,11 @@ public class MainActivity extends AppCompatActivity {
      * @param v Button that was clicked.
      */
     public void onClickOpenWebpageButton(View v) {
-        // TODO (5) Create a String that contains a URL ( make sure it starts with http:// or https:// )
+        // COMPLETED (5) Create a String that contains a URL ( make sure it starts with http:// or https:// )
+        final String url = "https://github.com/scaffeinate";
 
-        // TODO (6) Replace the Toast with a call to openWebPage, passing in the URL String from the previous step
-        Toast.makeText(this, "TODO: Open a web page when this button is clicked", Toast.LENGTH_SHORT).show();
+        // COMPLETED (6) Replace the Toast with a call to openWebPage, passing in the URL String from the previous step
+        openWebPage(url);
     }
 
     /**
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
      * @param v Button that was clicked.
      */
     public void onClickOpenAddressButton(View v) {
-        Toast.makeText(this, "TODO: Open a map when this button is clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "COMPLETED: Open a map when this button is clicked", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
      * @param v Button that was clicked.
      */
     public void onClickShareTextButton(View v) {
-        Toast.makeText(this, "TODO: Share text when this is clicked", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "COMPLETED: Share text when this is clicked", Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -66,23 +69,30 @@ public class MainActivity extends AppCompatActivity {
      * similar to what I've done above. You can view a list of implicit Intents on the Common
      * Intents page from the developer documentation.
      *
-     * @see <http://developer.android.com/guide/components/intents-common.html/>
-     *
      * @param v Button that was clicked.
+     * @see <http://developer.android.com/guide/components/intents-common.html/>
      */
     public void createYourOwn(View v) {
         Toast.makeText(this,
-                "TODO: Create Your Own Implicit Intent",
+                "COMPLETED: Create Your Own Implicit Intent",
                 Toast.LENGTH_SHORT)
                 .show();
     }
 
-    // TODO (1) Create a method called openWebPage that accepts a String as a parameter
+    // COMPLETED (1) Create a method called openWebPage that accepts a String as a parameter
     // Do steps 2 - 4 within openWebPage
 
-        // TODO (2) Use Uri.parse to parse the String into a Uri
+    // COMPLETED (2) Use Uri.parse to parse the String into a Uri
 
-        // TODO (3) Create an Intent with Intent.ACTION_VIEW and the webpage Uri as parameters
+    // COMPLETED (3) Create an Intent with Intent.ACTION_VIEW and the webpage Uri as parameters
 
-        // TODO (4) Verify that this Intent can be launched and then call startActivity
+    // COMPLETED (4) Verify that this Intent can be launched and then call startActivity
+    private void openWebPage(String url) {
+        Uri uri = Uri.parse(url);
+        Intent actionViewIntent = new Intent(Intent.ACTION_VIEW, uri);
+
+        if (actionViewIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(actionViewIntent);
+        }
+    }
 }
