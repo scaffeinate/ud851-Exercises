@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         // COMPLETED (6) If savedInstanceState is not null and contains LIFECYCLE_CALLBACKS_TEXT_KEY, set that text on our TextView
         if (savedInstanceState != null && savedInstanceState.containsKey(LIFECYCLE_CALLBACKS_TEXT_KEY)) {
-            mLifecycleDisplay.setText(savedInstanceState.get(LIFECYCLE_CALLBACKS_TEXT_KEY).toString());
+            mLifecycleDisplay.setText(savedInstanceState.getString(LIFECYCLE_CALLBACKS_TEXT_KEY));
         }
         logAndAppend(ON_CREATE);
     }
