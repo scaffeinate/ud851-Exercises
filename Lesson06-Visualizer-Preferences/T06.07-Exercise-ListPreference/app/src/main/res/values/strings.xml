@@ -33,13 +33,13 @@
     <string name="pref_color_summary">Background Color</string>
 
     <!-- Label for red color option -->
-    <string name="pref_color_red_label" translatable="false">red</string>
+    <string name="pref_color_red_label" translatable="false">Red</string>
 
     <!-- Label for blue color option -->
-    <string name="pref_color_blue_label" translatable="false">blue</string>
+    <string name="pref_color_blue_label" translatable="false">Blue</string>
 
     <!-- Label for green color option -->
-    <string name="pref_color_green_label" translatable="false">green</string>
+    <string name="pref_color_green_label" translatable="false">Green</string>
 
     <!-- Value in SharedPreferences for red color option -->
     <string name="pref_color_red_value" translatable="false">red</string>
