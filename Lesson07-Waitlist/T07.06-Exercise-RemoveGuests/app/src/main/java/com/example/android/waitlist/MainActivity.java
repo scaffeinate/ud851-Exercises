@@ -11,6 +11,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.android.waitlist.data.WaitlistContract;
 import com.example.android.waitlist.data.WaitlistDbHelper;
@@ -74,9 +75,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 if (direction == ItemTouchHelper.LEFT || direction == ItemTouchHelper.RIGHT) {
-                    int id = (int) viewHolder.itemView.getTag();
-                    removeGuest(id);
-                    mAdapter.swapCursor(getAllGuests());
+                    long id = (long) viewHolder.itemView.getTag();
+                    if (removeGuest(id)) {
+                        mAdapter.swapCursor(getAllGuests());
+                        Toast.makeText(MainActivity.this, "Deleted!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
