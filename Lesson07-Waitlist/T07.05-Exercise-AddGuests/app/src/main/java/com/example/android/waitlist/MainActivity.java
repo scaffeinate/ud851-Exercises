@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 partySize = Integer.parseInt(mNewPartySizeEditText.getText().toString());
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                Log.e(LOG_TAG, e.getMessage());
             }
 
             addNewGuest(guestName, partySize);
