@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.android.waitlist.data.WaitlistContract;
 import com.example.android.waitlist.data.WaitlistDbHelper;
@@ -85,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
         // COMPLETED (19) call mAdapter.swapCursor to update the cursor by passing in getAllGuests()
 
         // COMPLETED (20) To make the UI look nice, call .getText().clear() on both EditTexts, also call clearFocus() on mNewPartySizeEditText
-        if (TextUtils.isEmpty(mNewGuestNameEditText.getText()) &&
-                TextUtils.isEmpty(mNewPartySizeEditText.getText())) {
+        if (!TextUtils.isEmpty(mNewGuestNameEditText.getText()) &&
+                !TextUtils.isEmpty(mNewPartySizeEditText.getText())) {
             String guestName = mNewGuestNameEditText.getText().toString();
             int partySize = 1;
             try {
@@ -100,7 +101,11 @@ public class MainActivity extends AppCompatActivity {
 
             mNewGuestNameEditText.getText().clear();
             mNewPartySizeEditText.getText().clear();
-            ;
+
+            mNewGuestNameEditText.clearFocus();
+            mNewPartySizeEditText.clearFocus();
+        } else {
+            Toast.makeText(this, "Please enter Guest name and Party size ", Toast.LENGTH_SHORT).show();
         }
 
     }
