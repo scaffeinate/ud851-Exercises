@@ -34,6 +34,6 @@ public class WaterReminderIntentService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         String action = intent.getAction();
-        ReminderTasks.executeTask(getApplicationContext(), action);
+        ReminderTasks.executeTask(this, action);
     }
 }
