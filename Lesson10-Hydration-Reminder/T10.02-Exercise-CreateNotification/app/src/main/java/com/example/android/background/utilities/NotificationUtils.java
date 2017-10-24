@@ -1,6 +1,7 @@
 package com.example.android.background.utilities;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -18,6 +19,7 @@ import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import static android.support.v4.app.NotificationCompat.DEFAULT_VIBRATE;
 import static android.support.v4.app.NotificationCompat.PRIORITY_DEFAULT;
 import static android.support.v4.app.NotificationCompat.PRIORITY_HIGH;
+import static android.support.v4.app.NotificationManagerCompat.IMPORTANCE_HIGH;
 
 /**
  * Utility class for creating hydration notifications
@@ -27,6 +29,8 @@ public class NotificationUtils {
     public static final int REQUESTOR_CODE = 441;
 
     private static final int NOTIFICATION_ID = 442;
+
+    private static final String NOTIFICATION_PRIMARY_CHANNEL = "primary_channel";
 
     // COMPLETED (7) Create a method called remindUserBecauseCharging which takes a Context.
     // This method will create a notification for charging. It might be helpful
@@ -50,7 +54,7 @@ public class NotificationUtils {
     // Pass in a unique ID of your choosing for the notification and notificationBuilder.build()
     public static void remindUserBecauseCharging(Context context) {
         String contentTitle = context.getResources().getString(R.string.charging_reminder_notification_title);
-        Notification notification = new NotificationCompat.Builder(context)
+        Notification notification = new NotificationCompat.Builder(context, NOTIFICATION_PRIMARY_CHANNEL)
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.drawable.ic_drink_notification)
                 .setLargeIcon(largeIcon(context))
@@ -59,10 +63,18 @@ public class NotificationUtils {
                 .setDefaults(DEFAULT_VIBRATE)
                 .setContentIntent(contentIntent(context))
                 .setAutoCancel(true)
-                .setPriority(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN ? PRIORITY_HIGH : PRIORITY_DEFAULT)
+                .setPriority((Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN &&
+                        Build.VERSION.SDK_INT < Build.VERSION_CODES.O) ? PRIORITY_HIGH : PRIORITY_DEFAULT)
                 .build();
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_PRIMARY_CHANNEL,
+                    context.getString(R.string.primary_channel), IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
         notificationManager.notify(NOTIFICATION_ID, notification);
     }
 
