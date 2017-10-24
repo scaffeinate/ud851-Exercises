@@ -11,6 +11,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.android.waitlist.data.WaitlistContract;
 import com.example.android.waitlist.data.WaitlistDbHelper;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         mDb = dbHelper.getWritableDatabase();
 
         // Get all guest info from the database and save in a cursor
-        Cursor cursor = getAllGuests();
+        final Cursor cursor = getAllGuests();
 
         // Create an adapter for that cursor to display the data
         mAdapter = new GuestListAdapter(this, cursor);
@@ -57,17 +58,34 @@ public class MainActivity extends AppCompatActivity {
         waitlistRecyclerView.setAdapter(mAdapter);
 
 
-        //TODO (3) Create a new ItemTouchHelper with a SimpleCallback that handles both LEFT and RIGHT swipe directions
+        //COMPLETED (3) Create a new ItemTouchHelper with a SimpleCallback that handles both LEFT and RIGHT swipe directions
+        // COMPLETED (4) Override onMove and simply return false inside
 
-        // TODO (4) Override onMove and simply return false inside
+        // COMPLETED (5) Override onSwiped
+        // COMPLETED (8) Inside, get the viewHolder's itemView's tag and store in a long variable id
+        // COMPLETED (9) call removeGuest and pass through that id
+        // COMPLETED (10) call swapCursor on mAdapter passing in getAllGuests() as the argument
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
-        // TODO (5) Override onSwiped
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
 
-        // TODO (8) Inside, get the viewHolder's itemView's tag and store in a long variable id
-        // TODO (9) call removeGuest and pass through that id
-        // TODO (10) call swapCursor on mAdapter passing in getAllGuests() as the argument
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                if (direction == ItemTouchHelper.LEFT || direction == ItemTouchHelper.RIGHT) {
+                    long id = (long) viewHolder.itemView.getTag();
+                    if (removeGuest(id)) {
+                        mAdapter.swapCursor(getAllGuests());
+                        Toast.makeText(MainActivity.this, "Deleted!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
 
-        //TODO (11) attach the ItemTouchHelper to the waitlistRecyclerView
+        //COMPLETED (11) attach the ItemTouchHelper to the waitlistRecyclerView
+        itemTouchHelper.attachToRecyclerView(waitlistRecyclerView);
 
     }
 
@@ -103,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * Query the mDb and get all guests from the waitlist table
      *
@@ -124,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Adds a new guest to the mDb including the party count and the current timestamp
      *
-     * @param name  Guest's name
+     * @param name      Guest's name
      * @param partySize Number in party
      * @return id of new record added
      */
@@ -136,9 +153,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // TODO (1) Create a new function called removeGuest that takes long id as input and returns a boolean
-
-    // TODO (2) Inside, call mDb.delete to pass in the TABLE_NAME and the condition that WaitlistEntry._ID equals id
-
-
+    // COMPLETED (1) Create a new function called removeGuest that takes long id as input and returns a boolean
+    // COMPLETED (2) Inside, call mDb.delete to pass in the TABLE_NAME and the condition that WaitlistEntry._ID equals id
+    private boolean removeGuest(long id) {
+        int numRows = mDb.delete(WaitlistContract.WaitlistEntry.TABLE_NAME, WaitlistContract.WaitlistEntry._ID + " = ? ",
+                new String[]{String.valueOf(id)});
+        return numRows > 0;
+    }
 }
