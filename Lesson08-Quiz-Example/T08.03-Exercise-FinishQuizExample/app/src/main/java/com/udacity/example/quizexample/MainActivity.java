@@ -101,12 +101,12 @@ public class MainActivity extends AppCompatActivity {
         if (mData != null) {
             if (mData.isAfterLast()) {
                 mData.moveToFirst();
-            } else {
-                mWordTextView.setText(mData.getString(mData.getColumnIndex(DroidTermsExampleContract.COLUMN_WORD)));
-                mDefinitionTextView.setText(mData.getString(mData.getColumnIndex(DroidTermsExampleContract.COLUMN_DEFINITION)));
-                mDefinitionTextView.setVisibility(View.INVISIBLE);
-                mData.moveToNext();
             }
+
+            mWordTextView.setText(mData.getString(mData.getColumnIndex(DroidTermsExampleContract.COLUMN_WORD)));
+            mDefinitionTextView.setText(mData.getString(mData.getColumnIndex(DroidTermsExampleContract.COLUMN_DEFINITION)));
+            mDefinitionTextView.setVisibility(View.INVISIBLE);
+            mData.moveToNext();
         }
         // Note that you shouldn't try to do this if the cursor hasn't been set yet.
         // If you reach the end of the list of words, you should start at the beginning again.
