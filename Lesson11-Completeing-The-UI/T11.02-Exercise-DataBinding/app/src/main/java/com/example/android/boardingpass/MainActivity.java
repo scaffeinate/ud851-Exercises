@@ -61,9 +61,12 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a");
 
         mBinding.textViewBoardingTime.setText(simpleDateFormat.format(info.boardingTime));
-        mBinding.textViewBoardingInCountdown.setText(simpleDateFormat.format(info.getMinutesUntilBoarding()));
         mBinding.textViewDepartureTime.setText(simpleDateFormat.format(info.departureTime));
         mBinding.textViewArrivalTime.setText(simpleDateFormat.format(info.arrivalTime));
+
+        long minutesUntilBoarding = info.getMinutesUntilBoarding();
+        long minutesLessHoursUntilBoarding = minutesUntilBoarding - ((minutesUntilBoarding / 60) * 60);
+        mBinding.textViewBoardingInCountdown.setText(getString(R.string.countDownFormat, minutesUntilBoarding / 60, minutesLessHoursUntilBoarding));
 
         mBinding.textViewTerminal.setText(info.departureTerminal);
         mBinding.textViewGate.setText(info.departureGate);
