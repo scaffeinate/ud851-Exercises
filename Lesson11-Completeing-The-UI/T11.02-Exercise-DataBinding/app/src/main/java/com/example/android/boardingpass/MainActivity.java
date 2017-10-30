@@ -16,34 +16,61 @@ package com.example.android.boardingpass;
 * limitations under the License.
 */
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.android.boardingpass.databinding.ActivityMainBinding;
+import com.example.android.boardingpass.utilities.FakeDataUtils;
+
+import java.text.SimpleDateFormat;
+
 public class MainActivity extends AppCompatActivity {
 
-    //TODO (3) Create a data binding instance called mBinding of type ActivityMainBinding
+    //COMPLETED (3) Create a data binding instance called mBinding of type ActivityMainBinding
+    ActivityMainBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        // COMPLETED (4) Set the Content View using DataBindingUtil to the activity_main layout
 
-        // TODO (4) Set the Content View using DataBindingUtil to the activity_main layout
+        // COMPLETED (5) Load a BoardingPassInfo object with fake data using FakeDataUtils
 
-        // TODO (5) Load a BoardingPassInfo object with fake data using FakeDataUtils
-
-        // TODO (9) Call displayBoardingPassInfo and pass the fake BoardingInfo instance
+        // COMPLETED (9) Call displayBoardingPassInfo and pass the fake BoardingInfo instance
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        BoardingPassInfo boardingPassInfo = FakeDataUtils.generateFakeBoardingPassInfo();
+        displayBoardingPassInfo(boardingPassInfo);
 
     }
 
     private void displayBoardingPassInfo(BoardingPassInfo info) {
 
-        // TODO (6) Use mBinding to set the Text in all the textViews using the data in info
+        // COMPLETED (6) Use mBinding to set the Text in all the textViews using the data in info
 
-        // TODO (7) Use a SimpleDateFormat formatter to set the formatted value in time text views
+        // COMPLETED (7) Use a SimpleDateFormat formatter to set the formatted value in time text views
 
-        // TODO (8) Use TimeUnit methods to format the total minutes until boarding
+        // COMPLETED (8) Use TimeUnit methods to format the total minutes until boarding
+        mBinding.textViewPassengerName.setText(info.passengerName);
+        mBinding.textViewFlightCode.setText(info.flightCode);
+
+        mBinding.textViewOriginAirport.setText(info.originCode);
+        mBinding.textViewDestinationAirport.setText(info.destCode);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a");
+
+        mBinding.textViewBoardingTime.setText(simpleDateFormat.format(info.boardingTime));
+        mBinding.textViewDepartureTime.setText(simpleDateFormat.format(info.departureTime));
+        mBinding.textViewArrivalTime.setText(simpleDateFormat.format(info.arrivalTime));
+
+        long minutesUntilBoarding = info.getMinutesUntilBoarding();
+        long minutesLessHoursUntilBoarding = minutesUntilBoarding - ((minutesUntilBoarding / 60) * 60);
+        mBinding.textViewBoardingInCountdown.setText(getString(R.string.countDownFormat, minutesUntilBoarding / 60, minutesLessHoursUntilBoarding));
+
+        mBinding.textViewTerminal.setText(info.departureTerminal);
+        mBinding.textViewGate.setText(info.departureGate);
+        mBinding.textViewSeat.setText(info.seatNumber);
 
     }
 }
