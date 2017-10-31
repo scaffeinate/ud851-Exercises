@@ -151,9 +151,7 @@ public class MainActivity extends AppCompatActivity implements
                 // COMPLETED (5) Query and load all task data in the background; sort by priority
                 // [Hint] use a try/catch block to catch any errors in loading data
                 try {
-                    cursor = getContentResolver().query(TaskContract.TaskEntry.CONTENT_URI,
-                            new String[]{TaskContract.TaskEntry._ID, TaskContract.TaskEntry.COLUMN_DESCRIPTION,
-                                    TaskContract.TaskEntry.COLUMN_PRIORITY}, null, null, null);
+                    cursor = getContentResolver().query(TaskContract.TaskEntry.CONTENT_URI, null, null, null, TaskContract.TaskEntry.COLUMN_PRIORITY);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

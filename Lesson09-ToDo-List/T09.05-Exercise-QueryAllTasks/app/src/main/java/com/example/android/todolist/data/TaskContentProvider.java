@@ -132,7 +132,7 @@ public class TaskContentProvider extends ContentProvider {
         // COMPLETED (3) Query for the tasks directory and write a default case
         switch (match) {
             case TASKS:
-                res = mDb.query(TaskContract.TaskEntry.TABLE_NAME, projection, null, null, null, null, null);
+                res = mDb.query(TaskContract.TaskEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             default:
                 throw new UnsupportedOperationException("Action not supported for uri: " + uri);
